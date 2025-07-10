@@ -1,5 +1,7 @@
 #include <stdint.h>
+#include <string.h>
 #include "./include/menus.h"
+#include "./include/utils.h"
 #include "./include/types.h"
 #include "./include/cadastros.h"
 #include "./include/relatorios.h"
@@ -8,23 +10,29 @@
 
 #define SAIR    0
 
-int main()
+int main(int argc, char* argv[])
 {
-    uint8_t opcao, sub_menu;
+
+    uint8_t opcao, sub_menu,codigo = 0;
     no_t *aux = NULL;
     float salario_minimo, salario_maximo;
     string nome_arq, nome_pessoa, funcao;
     char resposta;
     data_t data;
 
+    if (argc < 3) {
+        printf("Execute assim:\n");
+        printf("./programa <nome_arq.bin> <insercao: inicio|fim>\n");
+        return -1;
+    }
+
+    char *nome_arquivo = argv[1];
+    char *politica_insercao = argv[2];
 
     lista_t lista_rh;
-
-    // Criar a lista
     inicializa_lista_rh(&lista_rh);
 
-    // Carrega dados arquivo
-    ler_registros_rh_arquivo_binario("dados_rh.bin", &lista_rh);
+    ler_registros_rh_arquivo_binario(nome_arquivo, &lista_rh, politica_insercao);
 
     ordenar_em_ordem_alfabetica(&lista_rh);
 
@@ -39,10 +47,12 @@ int main()
                         sub_menu = menu_cadastros();
                         switch (sub_menu) {
                             
-                            case 1: break;
+                            case 1: aux = novo_registro_rh();
+                                    
+                            break;
                             
                             case 2: aux = novo_registro_rh();
-                                    insere_registro_inicio_rh(aux, &lista_rh);
+                                   
                                     break;
 
                             case 3: 
@@ -73,9 +83,21 @@ int main()
                                     }
                                     break;
 
-
+                            case 5: excluir_registro_rh(&lista_rh);
+                                    
+                                    break; 
+                                    
+                            case 6:
+                                   
+                                    printf("Digite o código do funcionário que deseja excluir:\n");
+                                    scanf("%hhi", &codigo);
+                                    
+                                    excluir_funcionario_por_codigo(&lista_rh, codigo);
+                            
+                                    break;
                             
                         }
+
                     } while (sub_menu != SAIR);
 
                     break;
@@ -186,6 +208,8 @@ int main()
     if (!is_lista_rh_vazia(lista_rh.cabeca)) {
         salvar_registros_rh_arquivo_binario("dados_rh.bin", lista_rh.cabeca);
     }
-
+   
+    liberar_lista_rh(&lista_rh);
+    
     return 0;
 }

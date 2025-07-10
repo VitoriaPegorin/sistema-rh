@@ -34,7 +34,8 @@ uint8_t menu_cadastros()
     printf("2.Cadastro de pessoas (funcionarios)\n");
     printf("3.Ordenar funcionarios (A-Z)\n");
     printf("4.Inativar funcionario\n");
-    printf("5.Excluir funcionario\n");
+    printf("5.Excluir lista de funcionario\n");
+    printf("6.Excluir um funcionario\n");
     printf("0.Retornar ao menu principal\n");
     printf("::: ");
     scanf("%hhi", &opcao);

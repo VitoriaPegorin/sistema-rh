@@ -26,26 +26,37 @@ void salvar_registros_rh_arquivo_binario(string nome_arq, no_t *ptr_lista_rh)
     fclose(fp);
 }
 
-void ler_registros_rh_arquivo_binario(string nome_arq, lista_t *lista_rh)
-{
-    FILE *fp;
+void ler_registros_rh_arquivo_binario(string nome_arq, lista_t *lista_rh, string politica_insercao) 
+{ 
 
-    fp = fopen(nome_arq, "rb");
-
-    if(!fp) {
-        printf("Falha ao abrir o arquivo!\n");
+    FILE *fp = fopen(nome_arq, "rb");
+    if (!fp) {
+        printf("Falha ao abrir o arquivo: %s\n", nome_arq);
         return;
     }
 
-    while(!feof(fp)) {
-        no_t *aux = (no_t*)malloc(sizeof(no_t));
-        fread(aux, sizeof(no_t), 1, fp);
-        if (!feof(fp)) { 
-            aux->proximo = NULL;
-            insere_registro_inicio_rh(aux, lista_rh);
+    while (1) {
+        no_t *aux = malloc(sizeof(no_t));
+        if (!aux) {
+            printf("Erro de alocação de memória.\n");
+            break;
         }
-        else {
+
+        if (fread(aux, sizeof(no_t), 1, fp) != 1) {
             free(aux);
+            break;
+        }
+
+        aux->proximo = NULL;
+
+        if (strcmp(politica_insercao, "inicio") == 0) {
+            insere_registro_inicio_rh(aux, lista_rh);
+        } else if (strcmp(politica_insercao, "fim") == 0) {
+            insere_registro_fim_rh(aux, lista_rh);
+        } else {
+            printf("Política inválida: %s\n", politica_insercao);
+            free(aux);
+            break;
         }
     }
 

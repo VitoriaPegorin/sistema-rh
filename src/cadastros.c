@@ -1,5 +1,6 @@
 #include "../include/cadastros.h"
 #include "../include/utils.h"
+#include "../include/consultas.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -100,16 +101,73 @@ void insere_registro_inicio_rh(no_t *novo, lista_t *lista_rh)
 
 void insere_registro_fim_rh(no_t *novo, lista_t *lista_rh)
 {
+    novo->dados.codigo = ++lista_rh->nr_nos;
+
+    if(is_lista_rh_vazia(lista_rh->cabeca)){
+        lista_rh->cabeca = novo;
+        
+    } else {
+        no_t *ultima = localizar_ultimo_registro_rh(lista_rh->cabeca);
+        ultima->proximo = novo;
+    }
+}
+void excluir_registro_rh(lista_t *lista_rh)
+{
+    no_t *registro = lista_rh->cabeca;
+
+    while(registro != NULL){
+        no_t *prox = registro->proximo;
+        free(registro);
+        registro = prox;
+    }
+    lista_rh->cabeca = NULL;
 
 }
-
-void excluir_registro_rh(no_t *registro, lista_t *lista_rh)
+void excluir_funcionario_por_codigo(lista_t *lista_rh, uint16_t codigo) 
 {
+    if (!lista_rh || !lista_rh->cabeca) {
+        printf("Lista vazia ou inválida.\n");
+        return;
+    }
 
+    no_t *atual = lista_rh->cabeca;
+    no_t *anterior = NULL;
+
+    while (atual != NULL) {
+        if (atual->dados.codigo == codigo) {
+            if (anterior == NULL) {
+                // Caso seja o primeiro da lista
+                lista_rh->cabeca = atual->proximo;
+            } else {
+                anterior->proximo = atual->proximo;
+            }
+
+            printf("Funcionário removido: %s (Código: %hhi)\n", atual->dados.nome, atual->dados.codigo);
+            free(atual);
+            return;
+        }
+
+        anterior = atual;
+        atual = atual->proximo;
+    }
+
+    printf(" Funcionário com código %hhi não encontrado.\n", codigo);
 }
 
 void inativar_funcionario(no_t *registro, data_t data)
 {
     registro->dados.status = INATIVO;
     registro->dados.demissao = data;
+}
+void liberar_lista_rh(lista_t *lista) {
+    no_t *atual = lista->cabeca;
+    no_t *prox;
+
+    while (atual != NULL) {
+        prox = atual->proximo;
+        free(atual); // libera o nó inteiro
+        atual = prox;
+    }
+
+    lista->cabeca = NULL;
 }

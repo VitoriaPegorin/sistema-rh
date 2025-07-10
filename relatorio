@@ -1,0 +1,41 @@
+----------------------------------
+Relatorio Completo de Funcionarios
+----------------------------------
+
+Codigo.....................: 1
+Nome da pessoa.............: ANNA
+Email da pessoa............: ANNAPEGORIN@GMAIL.COM
+CPF da pessoa..............: 4039242
+Funcao.....................: ENGENHEIRA
+Salario....................: 20.00
+Data da admissao...........: 12/4/2025
+Status.....................: 1
+
+Codigo.....................: 2
+Nome da pessoa.............: JOSE DA SILVA
+Email da pessoa............: JOSE@GMAIL.COM
+CPF da pessoa..............: 939393
+Funcao.....................: PROGRAMADOR
+Salario....................: 23000.00
+Data da admissao...........: 12/12/2022
+Data da demissao...........: 26/6/2025
+Status.....................: 2
+
+Codigo.....................: 3
+Nome da pessoa.............: MARIA
+Email da pessoa............: MARIA@GMAIL.COM
+CPF da pessoa..............: 838383
+Funcao.....................: GERENTE
+Salario....................: 34000.00
+Data da admissao...........: 25/6/2025
+Status.....................: 1
+
+Codigo.....................: 4
+Nome da pessoa.............: ZENAIDE
+Email da pessoa............: Z@Z.Z
+CPF da pessoa..............: 132
+Funcao.....................: TRABALHADOR
+Salario....................: 1200.00
+Data da admissao...........: 12/10/2023
+Status.....................: 1
+

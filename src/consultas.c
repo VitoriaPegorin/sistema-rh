@@ -3,14 +3,11 @@
 
 no_t *consulta_pessoa_por_nome(string nome, no_t *lista)
 {
-    while (lista) {
+    if (lista == NULL)  return NULL;
 
-        if (strcmp(nome, lista->dados.nome) == 0) {
+    if (strcmp(nome, lista->dados.nome) == 0) {
             return lista;
-        }
-        
-        lista = lista->proximo;
     }
-
-    return NULL;
+        
+    return consulta_pessoa_por_nome(nome, lista->proximo);
 }
